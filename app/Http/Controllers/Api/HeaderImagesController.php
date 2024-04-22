@@ -84,7 +84,7 @@ class HeaderImagesController extends Controller
         }
 
         $file = $request->file($fileName); // return uploadedFile object
-        $path =  $file->store('uploads/header_images', [
+        $path =  $file->store('uploads/images', [
             'disk' => 'public'
         ]); // or i can put key and value ('disk' => 'public')
         return $path;
