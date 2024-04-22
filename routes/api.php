@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AboutUsController;
 use App\Http\Controllers\Api\AdminAuthController;
 use App\Http\Controllers\Api\HeaderImagesController;
 use Illuminate\Http\Request;
@@ -20,4 +21,9 @@ Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/get-header-images', [HeaderImagesController::class, 'getAllHeaderImages']);
     Route::post('/delete-header-image', [HeaderImagesController::class, 'removeHeaderImage']);
     Route::post('/update-header-image', [HeaderImagesController::class, 'updateHeaderImage']);
+    #Header Images
+    Route::post('/about-us-create', [AboutUsController::class, 'create']);
+    Route::get('/get-about-us-data', [AboutUsController::class, 'show']);
+    Route::post('/delete-header-image', [AboutUsController::class, 'removeHeaderImage']);
+    Route::post('/update-header-image', [AboutUsController::class, 'updateHeaderImage']);
 });

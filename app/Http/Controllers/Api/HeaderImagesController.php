@@ -87,6 +87,7 @@ class HeaderImagesController extends Controller
         $path =  $file->store('uploads/images', [
             'disk' => 'public'
         ]); // or i can put key and value ('disk' => 'public')
+
         return $path;
     }
 }
