@@ -1,0 +1,23 @@
+<?php
+
+use App\Http\Controllers\Api\AdminAuthController;
+use App\Http\Controllers\Api\HeaderImagesController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+Route::post('admin/login', [AdminAuthController::class, 'login']);
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::post('create-user', [AdminAuthController::class, 'createUser']);
+    Route::post('logout', [AdminAuthController::class, 'logout']);
+    Route::post('edit-admin-info', [AdminAuthController::class, 'editAdminInfo']);
+
+    #Header Images
+    Route::post('/create-header-image', [HeaderImagesController::class, 'storeHeaderImages']);
+    Route::get('/get-header-images', [HeaderImagesController::class, 'getAllHeaderImages']);
+    Route::post('/delete-header-image', [HeaderImagesController::class, 'removeHeaderImage']);
+    Route::post('/update-header-image', [HeaderImagesController::class, 'updateHeaderImage']);
+});
