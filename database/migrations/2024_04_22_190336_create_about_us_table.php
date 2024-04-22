@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('about_us', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('our_goals');
+            $table->smallInteger('students_number');
+            $table->smallInteger('graduated_students');
+            $table->string("question")->nullable();
+            $table->text('answers');
+            $table->string('constructed_at');
+            $table->string('organizational_char_image')->nullable();
+            $table->string('institute_dean_name');
+            $table->string('institute_dean_image');
+            $table->text('institute_dean_word');
+            $table->string('chairman_of_board_name');
+            $table->string('chairman_of_board_image');
+            $table->text('chairman_of_board_word');
+
             $table->timestamps();
         });
     }
