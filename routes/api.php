@@ -24,6 +24,6 @@ Route::group(['prefix' => 'dashboard'], function () {
     #Header Images
     Route::post('/about-us-create', [AboutUsController::class, 'create']);
     Route::get('/get-about-us-data', [AboutUsController::class, 'show']);
-    Route::post('/delete-header-image', [AboutUsController::class, 'removeHeaderImage']);
+    Route::post('/about-us-update', [AboutUsController::class, 'update']);
     Route::post('/update-header-image', [AboutUsController::class, 'updateHeaderImage']);
 });
