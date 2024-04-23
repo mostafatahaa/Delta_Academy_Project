@@ -74,20 +74,4 @@ class HeaderImagesController extends Controller
         }
         return SendResponse::sendResponse(200, 'No Image To Upload', []);
     }
-
-
-    protected function uploadedImage(Request $request, $fileName)
-    {
-        // if request hasn't it will make this method return null and if not it will return the path
-        if (!$request->hasFile($fileName)) {
-            return;
-        }
-
-        $file = $request->file($fileName); // return uploadedFile object
-        $path =  $file->store('uploads/images', [
-            'disk' => 'public'
-        ]); // or i can put key and value ('disk' => 'public')
-
-        return $path;
-    }
 }
