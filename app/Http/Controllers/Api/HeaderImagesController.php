@@ -31,12 +31,14 @@ class HeaderImagesController extends Controller
         $data = [];
 
         foreach ($allHeaderImages as $image) {
-            $data[] = ['id' => $image->id, 'image' => asset($image->image)];
+            $data[] = ['id' => $image->id, 'image' => asset('storage/' . $image->image)];
         }
+
+
         if (count($allHeaderImages) > 0) {
             return SendResponse::sendResponse(200, 'All Header Images Retrieved Successfully', $data);
         }
-        return SendResponse::sendResponse(200, 'No Header Images To Retrived', []);
+        return SendResponse::sendResponse(200, 'No Header Images To Retrieved', []);
     }
 
     public function removeHeaderImage(Request $request)
