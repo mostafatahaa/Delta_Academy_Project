@@ -30,9 +30,6 @@ class HeaderImagesController extends Controller
 
     public function getAllHeaderImages()
     {
-        $response = Http::withHeaders([
-            'ngrok-skip-browser-warning' => 'true',
-        ])->get('https://5a38-197-35-219-112.ngrok-free.app/');
 
         $allHeaderImages = HeaderImage::all();
         $data = [];
