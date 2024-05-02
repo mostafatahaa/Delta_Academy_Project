@@ -6,6 +6,7 @@ use App\Helper\SendResponse;
 use App\Http\Controllers\Controller;
 use App\Models\AboutUs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
 class AboutUsController extends Controller
@@ -140,8 +141,9 @@ class AboutUsController extends Controller
         return SendResponse::sendResponse(200, 'Data Updated Successfully', []);
     }
 
-    public function getCommonQuestion()
+    public function getCommonQuestion(Request $request)
     {
+
         $data = AboutUs::select('id', 'question', 'answers')->get();
         return SendResponse::sendResponse(200, 'Data Retrieved Successfully', $data);
     }

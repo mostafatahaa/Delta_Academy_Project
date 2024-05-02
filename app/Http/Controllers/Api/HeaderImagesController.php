@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Http;
+
+
 use App\Helper\SendResponse;
 use App\Http\Controllers\Controller;
 use App\Models\HeaderImage;
@@ -27,6 +30,10 @@ class HeaderImagesController extends Controller
 
     public function getAllHeaderImages()
     {
+        $response = Http::withHeaders([
+            'ngrok-skip-browser-warning' => 'true',
+        ])->get('https://5a38-197-35-219-112.ngrok-free.app/');
+
         $allHeaderImages = HeaderImage::all();
         $data = [];
 
