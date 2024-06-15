@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 abstract class Controller
 {
@@ -14,9 +15,19 @@ abstract class Controller
         }
 
         $file = $request->file($fileName); // return uploadedFile object
-        $path =  $file->store('uploads/images', [
+        $path =  $file->store('uploads/files', [
             'disk' => 'public'
         ]); // or i can put key and value ('disk' => 'public')
         return $path;
+    }
+
+    public function checkIfImageChange(Request $request, $imageName, $oldImage)
+    {
+        if ($request->has($imageName)) {
+            Storage::disk('public')->delete($oldImage);
+            return $data[$imageName] = $this->uploadedImage($request, $imageName);
+        } else {
+            return $data[$imageName] = $oldImage;
+        }
     }
 }

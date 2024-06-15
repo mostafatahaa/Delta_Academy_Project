@@ -43,33 +43,58 @@ class AboutUsController extends Controller
     public function show()
     {
         $data = AboutUs::select('title', 'our_goals', 'students_number', 'graduated_students')->first();
-        $data['common_questions'] = AboutUs::select('id', 'question', 'answers')->get();
+    
         if ($data) {
+            $data->our_goals = json_decode($data->our_goals, true);
+    
+            $commonQuestions = AboutUs::select('id', 'question', 'answers')->where('question', '<>', null)->get();
+    
+            $commonQuestions->transform(function ($question) {
+                $question->answers = json_decode($question->answers, true); // Convert JSON to associative array
+                return $question;
+            });
+    
+            $data['common_questions'] = $commonQuestions;
+    
             return SendResponse::sendResponse(200, 'Data Retrieved Successfully', $data);
         }
-
-        return SendResponse::sendResponse(200, 'No Data To Retrieved', []);
+    
+        return SendResponse::sendResponse(200, 'No Data To Retrieve', []);
     }
 
     public function update(Request $request)
     {
         $data = $request->validate([
             'title' => ['required', 'string'],
-            'our_goals' => ['required', 'array'],
+            'our_goals' => ['required'],
             'students_number' => ['required', 'numeric', 'min:1'],
             'graduated_students' => ['required', 'numeric', 'min:1'],
         ]);
 
         $record = AboutUs::first();
 
-        $data['our_goals'] = implode(',', $request->post('our_goals'));
+        // just put a key to array
+        $data['our_goals'] = explode(',', $data['our_goals']);
+        $i = 1;
+        $goals = null;
+        foreach($data['our_goals'] as $result) {
+            $goals[$i] = $result;
+            $i++;
+        }
+
+
+
+        $record->update([
+            'our_goals' => $goals,
+            'title' => $data['title'],
+            'students_number' => $data['students_number'],
+            'graduated_students' => $data['graduated_students'],
+    ]);
 
         // $data['institute_dean_image'] = $this->checkIfImageChange($request, 'institute_dean_image', $record->institute_dean_image);
         // $data['chairman_of_board_image'] = $this->checkIfImageChange($request, 'chairman_of_board_image', $record->chairman_of_board_image);
         // $data['organizational_char_image'] = $this->checkIfImageChange($request, 'organizational_char_image', $record->organizational_char_image);
-
-        $record->update($data);
-
+        
         return SendResponse::sendResponse(200, 'Data Updated Successfully', []);
     }
 
@@ -78,15 +103,24 @@ class AboutUsController extends Controller
         $data = $request->validate([
             'id' => ['nullable', 'exists:about_us,id'],
             'question' => ['required', 'max:255'],
-            'answers' => ['required', 'array', 'max:255'],
+            'answers' => ['required'],
         ]);
 
-        $data['answers'] = implode(',', $request->post('answers'));
-        AboutUs::updateOrCreate([
+        $data['answers'] = explode(',', $data['answers']);
+        $i = 1;
+        $answers = null;
+        foreach($data['answers'] as $result) {
+            $answers[$i] = $result;
+            $i++;
+            }
+            $answers = json_encode($answers);
+
+
+        $record = AboutUs::updateOrCreate([
             'id' => $request->id
         ], [
             'question' => $data['question'],
-            'answers' => $data['answers']
+            'answers' => $answers 
         ]);
         return SendResponse::sendResponse(200, 'Data Updated Or Created Successfully', []);
     }

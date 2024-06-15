@@ -16,7 +16,7 @@ class CorsMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        $response->headers->set('ngrok-skip-browser-warning', 'true');
+        // $response->headers->set('ngrok-skip-browser-warning', 'true');
 
         return $response;
 
