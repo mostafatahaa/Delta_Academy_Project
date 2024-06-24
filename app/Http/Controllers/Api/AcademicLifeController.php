@@ -12,6 +12,7 @@ class AcademicLifeController extends Controller
     public function showOne()
     {
         $record = academicLife::select('id', 'name', 'image', 'description')->find(1);
+        $record->image = asset('storage/' . $record->image);
 
         if ($record) {
             $record->description = json_decode($record->description, true);
@@ -59,6 +60,7 @@ class AcademicLifeController extends Controller
 
         if ($record) {
             $record->description = json_decode($record->description, true);
+            $record->image = asset('storage/' . $record->image);
 
             return SendResponse::sendResponse(200, 'Data Retrieved Successfully', $record);
         }
@@ -103,6 +105,8 @@ class AcademicLifeController extends Controller
 
         if ($record) {
             $record->description = json_decode($record->description, true);
+            $record->image = asset('storage/' . $record->image);
+
 
             return SendResponse::sendResponse(200, 'Data Retrieved Successfully', $record);
         }

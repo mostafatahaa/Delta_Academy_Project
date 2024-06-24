@@ -54,7 +54,7 @@ class FollowUpCommitteeController extends Controller
             'id' => ['required', 'exists:follow_up_committees,id']
         ]);
         $record = FollowUpCommittee::find($request->id);
-        $data['image'] = $this->checkIfImageChange($request, 'institute_dean_image', $record->image);
+        $data['image'] = $this->checkIfImageChange($request, 'image', $record->image);
 
         $record->update([
             'image' => $data['image'],
